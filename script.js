@@ -133,11 +133,11 @@ function updateOrderHTML() {
 
 `;
 
-    const confirm = document
-      .querySelector('.confirm-order')
-      .addEventListener('click', () => {
-        openModal();
-      });
+    // const confirm = document
+    //   .querySelector('.confirm-order')
+    //   .addEventListener('click', () => {
+    //     openModal();
+    //   });
 
     // function openModal() {}
     function openModal() {
