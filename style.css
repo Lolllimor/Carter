@@ -24,6 +24,8 @@ p {
 } */
 
 .dessertTitle {
+  font-size: 32px;
+  font-weight: 700;
   margin: 15px 0;
 }
 
@@ -62,6 +64,7 @@ p {
 }
 
 .cartTitle {
+  font-size: 24px;
   font-weight: 700;
   font-family: inherit;
   color: #c73a0f;
@@ -166,13 +169,126 @@ p {
   justify-content: center;
   align-items: center;
   border: 1px solid #fff;
-  height: 16px;
-  width: 16px;
+  height: 18px;
+  width: 18px;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .quantity {
   color: #fff;
+}
+
+.cartItem {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid hsl(7 20% 60% / 0.3);
+  padding-bottom: 14px;
+}
+
+.itemName {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.first {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.amountPrice {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.amount {
+  color: #c73a0f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pricePerOne {
+  display: flex;
+  gap: 5px;
+  color: hsl(7 20% 60% / 1);
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.totalAmount {
+  font-weight: 700;
+}
+
+.remove {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  border-radius: 50%;
+  border: 1px solid hsl(7 20% 60% / 1);
+}
+
+.footer-cart {
+  width: 100%;
+}
+
+.final-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-top: 10px;
+}
+
+.total {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.footer-cart {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 30px;
+  padding-bottom: 10px;
+}
+
+.carbon {
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  gap: 8px;
+  margin: auto;
+  padding-block: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8ebe9;
+  border-radius: 10px;
+}
+
+.carbon-text {
+  width: fit-content;
+  font-size: 14px;
+}
+
+.carbon-text span {
+  font-weight: 600;
+}
+
+.confirm-order {
+  background-color: #c73a0f;
+  border: none;
+  padding: 15px 0;
+  border-radius: 25px;
+  color: white;
+  
 }
 
 .attribution {
@@ -222,5 +338,13 @@ p {
     display: flex;
     flex-direction: column;
     gap: 15px;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .attribution {
+    font-size: 12px;
   }
 }

@@ -59,85 +59,217 @@ const itemsHTML = items
   .map(
     (item, idx) =>
       `<div class="dessertDiv"> 
-  <div class="imageStyle">
-  <img src="${item.img}" alt="${item.name}" class="imageStyle"/>
-  <button class="addToCart gadd"> 
-  <div class="innerbtndiv">
-  <img src="/assets/images/icon-add-to-cart.svg"/> 
-  <p class="addP">Add to cart</p>
-  </div>
-  </button>
-  </div>
-  <div class="label"><p class="category">${item.name}</p>
-  <p class="descript">${item.description}</p>
-  <p class="price">$${item.price}</p>
-  </div>
-  </div>`
+        <div class="imageStyle">
+          <img src="${item.img}" alt="${item.name}" class="imageStyle"/>
+          <button class="addToCart gadd" data-index="${idx}"> 
+            <div class="innerbtndiv">
+              <img src="/assets/images/icon-add-to-cart.svg"/> 
+              <p class="addP">Add to cart</p>
+            </div>
+          </button>
+        </div>
+        <div class="label">
+          <p class="category">${item.name}</p>
+          <p class="descript">${item.description}</p>
+          <p class="price">$${item.price}</p>
+        </div>
+      </div>`
   )
   .join('');
 
-document.querySelector('.items').innerHTML = itemsHTML;
-
 const order = [];
+document.querySelector('.items').innerHTML = itemsHTML;
+const totalQuantityDisplay = document.querySelector('.totalQuantity');
 
-document.querySelectorAll('.addToCart').forEach((button, idx) => {
-  button.addEventListener('click', () => {
-    const exist = order.find((i) => i.name === items[idx].name);
-    if (!exist) {
-      order.push({ ...items[idx], quantity: 1 });
+function calculateTotalQuantity() {
+  const totalQuantity = order.reduce((sum, item) => sum + item.quantity, 0);
+  totalQuantityDisplay.textContent = `${totalQuantity}`;
+}
+
+function updateOrderHTML() {
+  console.log(order.length);
+  if (order.length > 0) {
+    const orderHTML = order
+      .map(
+        (item, idx) => `
+      <div class="cartItem">
+        <div class="first">
+          <p class="itemName">${item.name}</p>
+          <div class="amountPrice">
+            <span class="amount">${item.quantity}x </span>
+            <span class="pricePerOne">@$${
+              item.price
+            } <span class="totalAmount">$${(
+          parseFloat(item.price) * item.quantity
+        ).toFixed(2)}</span></span>
+          </div>
+        </div>
+          <div class="remove">
+    <img src="/assets/images/icon-remove-item.svg" class="decrement" data-index="${
+      order.length
+    }" />
+  </div>
+      </div>
+    `
+      )
+      .join('');
+    const fullHTML = `
+  ${orderHTML} 
+  <div class="footer-cart">
+    <div class="final-total">
+      <p >Order Total</p>
+      <p class="total">$${order.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      )}</p>
+    </div>
+    <div class="carbon">
+      <img src="/assets/images/icon-carbon-neutral.svg" alt="" />
+      <p class="carbon-text">This is a <span>carbon-neutral</span> delivery</p>
+    </div>
+    <button class="confirm-order">
+    <p> Confirm Order</p></button>
+  </div>
+
+`;
+
+    const confirm = document
+      .querySelector('.confirm-order')
+      .addEventListener('click', () => {
+        openModal();
+      });
+
+    // function openModal() {}
+    function openModal() {
+      // Create modal HTML structure
+      const modalHTML = `
+    <div class="modal-overlay">
+      <div class="modal">
+        <p>Order Confirmed!</p>
+        <button class="close-modal">Close</button>
+      </div>
+    </div>
+  `;
+
+      // Append the modal to the body
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+      // Add event listener to close the modal
+      document.querySelector('.close-modal').addEventListener('click', () => {
+        closeModal();
+      });
     }
 
-    button.classList.remove('addToCart');
-    button.classList.add('counter');
-    button.innerHTML = `
-      <div class="counter">
-      <div class="circleAdd">
-      <img src="/assets/images/icon-decrement-quantity.svg" class="decrement" data-index="${idx}"/>
-      </div>
-     <span class="quantity">${
-       typeof exist?.quantity === 'number' && exist?.quantity > 0
-         ? exist.quantity
-         : 1
-     }</span>
-        <div class="circleAdd">
-         <img src="/assets/images/icon-increment-quantity.svg" class="increment" data-index="${idx}"/>
-         </div>
-      
-      </div>`;
+    function closeModal() {
+      const modalOverlay = document.querySelector('.modal-overlay');
+      if (modalOverlay) {
+        modalOverlay.remove();
+      }
+    }
 
-    // Add event listeners for increment and decrement buttons
-    const decrementButton = button.querySelector('.decrement');
-    const incrementButton = button.querySelector('.increment');
-
-    decrementButton.addEventListener('click', () => updateQuantity(idx, -1));
-    incrementButton.addEventListener('click', () => updateQuantity(idx, 1));
-  });
-});
-
-function updateQuantity(idx, change) {
-  const item = order.find((item) => item.name === items[idx].name);
-  if (item && item.quantity > 0) {
-    item.quantity += change;
-
-    // Update the displayed quantity
-    // document.querySelector(`.counter .quantity`).innerText = item.quantity;
-
-    console.log(`Updated order:`, order);
+    document.querySelector('.orders').innerHTML = fullHTML;
+    document.querySelectorAll('.remove').forEach((button) => {
+      button.addEventListener('click', handleRemoveItem);
+    });
   } else {
-    console.log('first');
-    order.splice(order.indexOf(idx), 1);
-
-    console.log(order);
-    // Reset the button to "Add to Cart"
-    const button = document.querySelectorAll('.addToCart')[idx];
-    console.log(idx);
-    button.innerHTML = `
-        <button class="addToCart gadd"> 
-        <img src="/assets/images/icon-add-to-cart.svg"/> 
-        <p class="addP">Add to cart</p>
-        </button>`;
-
-    button.classList.remove('counter');
-    button.classList.add('addToCart');
+    document.querySelector('.orders').innerHTML = `   <img
+            src="/assets/images/illustration-empty-cart.svg"
+            alt=" empty cart"
+          />
+          <p class="emptyText">Your added items will appear here</p>`;
   }
 }
+
+function handleRemoveItem(event) {
+  const idx = parseInt(event.target.dataset.index);
+  removeItemFromOrder(idx);
+}
+
+function removeItemFromOrder(idx) {
+  if (idx >= 0 && idx < order.length) {
+    const removedItem = order[idx];
+    order.splice(idx, 1);
+
+    const itemIndex = items.findIndex((item) => item.name === removedItem.name);
+    if (itemIndex !== -1) {
+      resetButton(itemIndex);
+    }
+
+    calculateTotalQuantity();
+    updateOrderHTML();
+  }
+}
+
+function updateQuantity(idx, change) {
+  const itemIndex = order.findIndex((item) => item.name === items[idx].name);
+  if (itemIndex !== -1) {
+    order[itemIndex].quantity += change;
+    if (order[itemIndex].quantity <= 0) {
+      order.splice(itemIndex, 1);
+      resetButton(idx);
+    } else {
+      updateButtonContent(idx);
+    }
+  }
+  calculateTotalQuantity();
+  updateOrderHTML();
+}
+
+function resetButton(idx) {
+  const button = document.querySelectorAll('.addToCart, .counter')[idx];
+  button.className = 'addToCart gadd';
+  button.innerHTML = `
+    <div class="innerbtndiv">
+      <img src="/assets/images/icon-add-to-cart.svg"/> 
+      <p class="addP">Add to cart</p>
+    </div>`;
+}
+
+function updateButtonContent(idx) {
+  const button = document.querySelectorAll('.addToCart, .counter')[idx];
+  const item = order.find((item) => item.name === items[idx].name);
+  button.className = 'counter gadd';
+  button.innerHTML = `
+    
+      <div class="circleAdd decrement">
+        <img src="/assets/images/icon-decrement-quantity.svg" data-index="${idx}"/>
+      </div>
+      <span class="quantity">${item.quantity}</span>
+      <div class="circleAdd increment">
+        <img src="/assets/images/icon-increment-quantity.svg" data-index="${idx}"/>
+      </div>
+  `;
+
+  const decrementButton = button.querySelector('.decrement');
+  const incrementButton = button.querySelector('.increment');
+  decrementButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateQuantity(idx, -1);
+  });
+  incrementButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateQuantity(idx, 1);
+  });
+}
+
+document.querySelector('.items').addEventListener('click', (event) => {
+  const button = event.target.closest('.addToCart, .counter');
+  if (button) {
+    const idx = parseInt(button.dataset.index);
+    const item = items[idx];
+    const existingItem = order.find((i) => i.name === item.name);
+
+    if (!existingItem) {
+      order.push({ ...item, quantity: 1 });
+      updateButtonContent(idx);
+    } else {
+      updateQuantity(idx, 1);
+    }
+
+    calculateTotalQuantity();
+    updateOrderHTML();
+  }
+});
+
+calculateTotalQuantity();
+updateOrderHTML();
