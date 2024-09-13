@@ -87,7 +87,6 @@ function calculateTotalQuantity() {
 }
 
 function updateOrderHTML() {
-  console.log(order.length);
   if (order.length > 0) {
     const orderHTML = order
       .map(
@@ -132,42 +131,68 @@ function updateOrderHTML() {
   </div>
 
 `;
-
-    // const confirm = document
-    //   .querySelector('.confirm-order')
-    //   .addEventListener('click', () => {
-    //     openModal();
-    //   });
-
-    // function openModal() {}
-    function openModal() {
-      // Create modal HTML structure
-      const modalHTML = `
-    <div class="modal-overlay">
-      <div class="modal">
-        <p>Order Confirmed!</p>
-        <button class="close-modal">Close</button>
-      </div>
-    </div>
-  `;
-
-      // Append the modal to the body
-      document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-      // Add event listener to close the modal
-      document.querySelector('.close-modal').addEventListener('click', () => {
-        closeModal();
+    const modal = document.getElementById('myModal');
+    document.querySelector('.orders').innerHTML = fullHTML;
+    const confirmButton = document.querySelector('.confirm-order');
+    if (confirmButton) {
+      confirmButton.addEventListener('click', () => {
+        openModal();
       });
     }
 
-    function closeModal() {
-      const modalOverlay = document.querySelector('.modal-overlay');
-      if (modalOverlay) {
-        modalOverlay.remove();
-      }
+    // function openModal() {}
+    function openModal() {
+      modal.style.display = 'block';
+      document.querySelector('.modal-content').innerHTML = `
+           <div class="OrderDiv">
+        <img height="40px" src="/assets/images/icon-order-confirmed.svg" />
+        <h2 class="orderHTwo">Order Confirmed</h2>
+        <p class="orderP">We hope you enjoy your food</p>
+        <div class="orderConfirmed">${order.map(
+          (item, idx) => `
+      <div class="orderItem">
+      <div class="imgDiv"><img height="50px" src="${
+        item.img
+      }"/><div class="second">
+          <p class="itemName">${item.name}</p>
+          <div class="amountPrice">
+            <span class="amount">${item.quantity}x </span>
+            <span class="pricePerOne">@$${item.price} </span>
+          </div>
+        </div></div>
+      
+        
+          <span class="OrdertotalAmount">$${(
+            parseFloat(item.price) * item.quantity
+          ).toFixed(2)}</span>
+      </div>
+    `
+        )}   <div class="totalTotal">
+      <p class="tol">Order Total</p>
+      <p class="total">$${order.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      )}</p>
+    </div></div>
+ <button class="new-order">
+    <p> Start New Order</p></button>
+      
+      `;
+
+      document.querySelector('.new-order').addEventListener('click', () => {
+        order.length = 0;
+        updateOrderHTML();
+        calculateTotalQuantity();
+        resetAllButtons();
+        modal.style.display = 'none';
+      });
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      };
     }
 
-    document.querySelector('.orders').innerHTML = fullHTML;
     document.querySelectorAll('.remove').forEach((button) => {
       button.addEventListener('click', handleRemoveItem);
     });
@@ -178,6 +203,17 @@ function updateOrderHTML() {
           />
           <p class="emptyText">Your added items will appear here</p>`;
   }
+}
+
+function resetAllButtons() {
+  document.querySelectorAll('.addToCart, .counter').forEach((button, idx) => {
+    button.className = 'addToCart gadd';
+    button.innerHTML = `
+      <div class="innerbtndiv">
+        <img src="/assets/images/icon-add-to-cart.svg"/> 
+        <p class="addP">Add to cart</p>
+      </div>`;
+  });
 }
 
 function handleRemoveItem(event) {
