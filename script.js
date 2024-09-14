@@ -2,7 +2,7 @@ const items = [
   {
     name: 'Waffle',
     description: 'Waffle with Berries',
-    img: '/assets/images/image-waffle-desktop.jpg',
+    img: 'assets/images/image-waffle-desktop.jpg',
     price: '6.50',
   },
   {
