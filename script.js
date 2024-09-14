@@ -8,49 +8,49 @@ const items = [
   {
     name: 'Crème Brûlée ',
     description: 'Vanilla Bean Crème Brûlée',
-    img: '/assets/images/image-creme-brulee-desktop.jpg',
+    img: 'assets/images/image-creme-brulee-desktop.jpg',
     price: '7.00',
   },
   {
     name: 'Macaron',
     description: 'Macaron Mix of Five',
-    img: '/assets/images/image-macaron-desktop.jpg',
+    img: 'assets/images/image-macaron-desktop.jpg',
     price: '6.50',
   },
   {
     name: 'Tiramisu',
     description: 'Classic Tiramisu',
-    img: '/assets/images/image-tiramisu-desktop.jpg',
+    img: 'assets/images/image-tiramisu-desktop.jpg',
     price: '6.50',
   },
   {
     name: 'Baklava',
     description: 'Pistachio Baklava',
-    img: '/assets/images/image-baklava-desktop.jpg',
+    img: 'assets/images/image-baklava-desktop.jpg',
     price: '6.50',
   },
   {
     name: 'Pie',
     description: 'Lemon Meringue Pie',
-    img: '/assets/images/image-meringue-desktop.jpg',
+    img: 'assets/images/image-meringue-desktop.jpg',
     price: '6.50',
   },
   {
     name: 'Cake',
     description: 'Red Velvet Cake',
-    img: '/assets/images/image-cake-desktop.jpg',
+    img: 'assets/images/image-cake-desktop.jpg',
     price: '6.50',
   },
   {
     name: 'Brownie',
     description: 'Salted Caramel Brownie ',
-    img: '/assets/images/image-brownie-desktop.jpg',
+    img: 'assets/images/image-brownie-desktop.jpg',
     price: '6.50',
   },
   {
     name: 'Panna Cotta',
     description: 'Vanilla Panna Cotta ',
-    img: '/assets/images/image-panna-cotta-desktop.jpg',
+    img: 'assets/images/image-panna-cotta-desktop.jpg',
     price: '6.50',
   },
 ];
@@ -63,7 +63,7 @@ const itemsHTML = items
           <img src="${item.img}" alt="${item.name}" class="imageStyle"/>
           <button class="addToCart gadd" data-index="${idx}"> 
             <div class="innerbtndiv">
-              <img src="/assets/images/icon-add-to-cart.svg"/> 
+              <img src="assets/images/icon-add-to-cart.svg"/> 
               <p class="addP">Add to cart</p>
             </div>
           </button>
@@ -104,7 +104,7 @@ function updateOrderHTML() {
           </div>
         </div>
           <div class="remove">
-    <img src="/assets/images/icon-remove-item.svg" class="decrement" data-index="${
+    <img src="assets/images/icon-remove-item.svg" class="decrement" data-index="${
       order.length
     }" />
   </div>
@@ -123,7 +123,7 @@ function updateOrderHTML() {
       )}</p>
     </div>
     <div class="carbon">
-      <img src="/assets/images/icon-carbon-neutral.svg" alt="" />
+      <img src="assets/images/icon-carbon-neutral.svg" alt="" />
       <p class="carbon-text">This is a <span>carbon-neutral</span> delivery</p>
     </div>
     <button class="confirm-order">
@@ -145,7 +145,7 @@ function updateOrderHTML() {
       modal.style.display = 'block';
       document.querySelector('.modal-content').innerHTML = `
            <div class="OrderDiv">
-        <img height="40px" src="/assets/images/icon-order-confirmed.svg" />
+        <img height="40px" src="assets/images/icon-order-confirmed.svg" />
         <h2 class="orderHTwo">Order Confirmed</h2>
         <p class="orderP">We hope you enjoy your food</p>
         <div class="orderConfirmed">${order.map(
@@ -198,7 +198,7 @@ function updateOrderHTML() {
     });
   } else {
     document.querySelector('.orders').innerHTML = `   <img
-            src="/assets/images/illustration-empty-cart.svg"
+            src="assets/images/illustration-empty-cart.svg"
             alt=" empty cart"
           />
           <p class="emptyText">Your added items will appear here</p>`;
