@@ -210,7 +210,7 @@ function resetAllButtons() {
     button.className = 'addToCart gadd';
     button.innerHTML = `
       <div class="innerbtndiv">
-        <img src="/assets/images/icon-add-to-cart.svg"/> 
+        <img src="assets/images/icon-add-to-cart.svg"/> 
         <p class="addP">Add to cart</p>
       </div>`;
   });
@@ -256,7 +256,7 @@ function resetButton(idx) {
   button.className = 'addToCart gadd';
   button.innerHTML = `
     <div class="innerbtndiv">
-      <img src="/assets/images/icon-add-to-cart.svg"/> 
+      <img src="assets/images/icon-add-to-cart.svg"/> 
       <p class="addP">Add to cart</p>
     </div>`;
 }
@@ -268,11 +268,11 @@ function updateButtonContent(idx) {
   button.innerHTML = `
     
       <div class="circleAdd decrement">
-        <img src="/assets/images/icon-decrement-quantity.svg" data-index="${idx}"/>
+        <img src="assets/images/icon-decrement-quantity.svg" data-index="${idx}"/>
       </div>
       <span class="quantity">${item.quantity}</span>
       <div class="circleAdd increment">
-        <img src="/assets/images/icon-increment-quantity.svg" data-index="${idx}"/>
+        <img src="assets/images/icon-increment-quantity.svg" data-index="${idx}"/>
       </div>
   `;
 
